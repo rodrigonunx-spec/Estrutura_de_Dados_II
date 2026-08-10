@@ -1,3 +1,7 @@
+// Esse Algoritmo em linguagem C, construído em sala de aula com Professor Wilson Amaral, na aula de Estrutura de Dados I; 
+// O código reúne todos os métodos de ordenação ensinados em sala de aula, em um único código.
+// O usuário pode digitar um vetor ou criar um automaticamente, e usar 4 métodos de ordenação para ordenar o vetor em ordem.
+
 #include <stdio.h>
 #include <conio.h>
 #include <stdlib.h>
