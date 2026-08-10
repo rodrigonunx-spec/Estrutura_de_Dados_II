@@ -6,11 +6,11 @@
 float vetor [1000];
 int qtd = 0;
 
-float tempo;
+
 
 void ZerarVariavel(){
 	int vezes=0;
-	tempo=NULL;
+
 }
 
 int imprimeMenu(){
@@ -44,8 +44,7 @@ void vetorAleatorizado(int tamanho) { // o usuario tem que digitar um valor int 
 
 void bubbleSort(int ordem){ // toda vez que a funcao eh chamada, ele passa um valor int obrigatorio
 	ZerarVariavel();
-	clock_t inicio = clock();
-	float aux; // variavel para auxiliar nos calculos de ordenacao
+		float aux; // variavel para auxiliar nos calculos de ordenacao
 	for (int i=0; i<qtd-1; i++) { // loop percorrendo o vetor por fora
 		for (int j=0; j<qtd-1-i; j++) { // loop responsavel por comparar os valor com os demais
 			if ( (ordem == 1 && vetor[j] > vetor[j+1]) // faz a comparacao entre o valor que o usuario digitou. Caso seja verdadeiro os dois lados executa
@@ -56,8 +55,6 @@ void bubbleSort(int ordem){ // toda vez que a funcao eh chamada, ele passa um va
 			}
 		}
 	}
-	clock_t fim = clock();
-	tempo = (((float) (fim - inicio)) / CLOCKS_PER_SEC);
 	
 }
 
@@ -65,7 +62,7 @@ void selectionSort(int escolha) {
 	int i, j, indice_alvo;
 	float aux;
 	ZerarVariavel();
-	clock_t inicio = clock();
+	
 	for (int i=0; i<qtd-1; i++) {
 		indice_alvo = i; // assumindo o primeiro elemento como o menor inicialmente
 		for (int j=i+1; j<qtd; j++) {
@@ -80,15 +77,14 @@ void selectionSort(int escolha) {
 				vetor[indice_alvo] = aux;
 				}
 		}
-		clock_t fim = clock();
-	tempo = (((float) (fim - inicio)) / CLOCKS_PER_SEC);
+		
 }
 
 void insertionSort(int opcao) {
 	float aux;
 	int i, j; 
 	ZerarVariavel();
-	clock_t inicio = clock();
+	
 	for (int i=1; i<qtd; i++){ // comeca com 1 pois assumimos que o valor 0 ja estah ordenado sozinho
 		aux = vetor[i]; // pegamos o valor e guardamos na variavel aux para, pois os proximos valores poderiam esmagar o valor atual
 		j = i - 1; // seria como se fosse nosso dedo com um monte de cartas na mao
@@ -100,8 +96,7 @@ void insertionSort(int opcao) {
 		vetor[j+1] = aux; // apos o fim do while, significa que (1. achamos o buraco perfeito para encaixar a carta; 2. chegamos no inicio do vetor;
 		// 3. achamos uma carta menor que aux) e encaixamos aux na frente do "j"
 	}
-	clock_t fim = clock();
-	tempo = (((float) (fim - inicio)) / CLOCKS_PER_SEC);
+	
 }
 
 void quickSortRecursivo(float vetor[], int i, int s, int organizar){
@@ -109,7 +104,7 @@ void quickSortRecursivo(float vetor[], int i, int s, int organizar){
 	int item = vetor[(e + d) / 2];
 	int aux;
 	ZerarVariavel();
-	clock_t inicio = clock();
+	
 	
 	while (e <= d){
 		
@@ -128,8 +123,7 @@ void quickSortRecursivo(float vetor[], int i, int s, int organizar){
 	
 	if (d - i > 0) quickSortRecursivo(vetor, i, d, organizar);
 	if (s - e > 0) quickSortRecursivo(vetor, e, s, organizar);
-	clock_t fim = clock();
-	tempo = (((float) (fim - inicio)) / CLOCKS_PER_SEC);
+	
 }
 
 void quickSort(float vetor[], int tamanho, int organizar) {
