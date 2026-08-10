@@ -1,1 +1,234 @@
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <time.h>
 
+float vetor [1000];
+int qtd = 0;
+
+float tempo;
+
+void ZerarVariavel(){
+	int vezes=0;
+	tempo=NULL;
+}
+
+int imprimeMenu(){
+	system("cls");
+	printf("\n-------------Menu de Ordenacao-------------\n");
+	printf("\n-- 1: Preencher o vetor --");
+	printf("\n-- 2: Limpar o vetor --");
+	printf("\n-- 3: Imprimir o vetor --");
+	printf("\n-- 4: Ordenar Bubble Sort --");
+	printf("\n-- 5: Ordenar Selection Sort --");
+	printf("\n-- 6: Ordenar Insertion Sort --");
+	printf("\n-- 7: Ordenar Quick Sort --");
+	printf("\n-- 8: Preencher o vetor de forma aleatoria --");
+	printf("\n-- 9: Sair do programa --");
+	printf("\n-------------------------------------------\n");
+	printf("\n Informa a opcao que deseja executar: ");
+	int resposta;
+	scanf("%i", &resposta);
+	return (resposta);
+	
+}
+
+void vetorAleatorizado(int tamanho) { // o usuario tem que digitar um valor int toda vez que a funcao eh chamada
+	for (int i=0; i<tamanho; i++){ // justamente percorre preenchendo o vetor
+		vetor[i] = (rand() % 100); // a funcao responsavel por aleatorizar os numeros e divide pelo resto da divisao por 100, caso o numero seja grande
+	}
+	printf("\n %i numeros aleatorios foram gerados no vetor com sucesso!!!", tamanho);
+	qtd = tamanho;	// a variavel qtd recebe o valor do tamanho para nao dar erro posteriormente	
+	getch(); // impede que a execucao continue antes do usuario digitar algo
+}
+
+void bubbleSort(int ordem){ // toda vez que a funcao eh chamada, ele passa um valor int obrigatorio
+	ZerarVariavel();
+	clock_t inicio = clock();
+	float aux; // variavel para auxiliar nos calculos de ordenacao
+	for (int i=0; i<qtd-1; i++) { // loop percorrendo o vetor por fora
+		for (int j=0; j<qtd-1-i; j++) { // loop responsavel por comparar os valor com os demais
+			if ( (ordem == 1 && vetor[j] > vetor[j+1]) // faz a comparacao entre o valor que o usuario digitou. Caso seja verdadeiro os dois lados executa
+			|| (ordem == 2 && vetor[j] < vetor[j+1]) ) { // caso o usuario digite 2, ele faz a mesma operacao, mas procurando o valor menor, como mostrado na ultima aula
+				aux = vetor[j];
+				vetor[j] = vetor[j+1];
+				vetor[j+1] = aux;
+			}
+		}
+	}
+	clock_t fim = clock();
+	tempo = (((float) (fim - inicio)) / CLOCKS_PER_SEC);
+	
+}
+
+void selectionSort(int escolha) {
+	int i, j, indice_alvo;
+	float aux;
+	ZerarVariavel();
+	clock_t inicio = clock();
+	for (int i=0; i<qtd-1; i++) {
+		indice_alvo = i; // assumindo o primeiro elemento como o menor inicialmente
+		for (int j=i+1; j<qtd; j++) {
+			if ( (escolha == 1 && vetor[j] < vetor[indice_alvo]) || // caso seja encontrado um valor menor que o atual, ele resgistra o indice desse numero, mas nao o troca de imediato
+			(escolha == 2 && vetor[j] > vetor[indice_alvo]) ) { // ele aqui, faz o mesmo processor, mas procurando um valor maior que o atual
+				indice_alvo = j; // e entao ele guarda o indice desse valor em uma "Prancheta" para fazer a troca posteriormente
+			}
+		}
+				if (indice_alvo != i){ // caso o numero que achamos nao for o numero que colocamos no comeco "i"
+				aux = vetor[i]; // aqui fazemos a troca das posicoes
+				vetor[i] = vetor[indice_alvo];
+				vetor[indice_alvo] = aux;
+				}
+		}
+		clock_t fim = clock();
+	tempo = (((float) (fim - inicio)) / CLOCKS_PER_SEC);
+}
+
+void insertionSort(int opcao) {
+	float aux;
+	int i, j; 
+	ZerarVariavel();
+	clock_t inicio = clock();
+	for (int i=1; i<qtd; i++){ // comeca com 1 pois assumimos que o valor 0 ja estah ordenado sozinho
+		aux = vetor[i]; // pegamos o valor e guardamos na variavel aux para, pois os proximos valores poderiam esmagar o valor atual
+		j = i - 1; // seria como se fosse nosso dedo com um monte de cartas na mao
+		while (j>=0 && ( (opcao == 1 &&  vetor[j] > aux) || // o "j" faz a pergunta: ainda tem cartas a minha esquerda? E, A carta que estou olhando eh maior que a minha aux atual?
+		(opcao == 2 && vetor[j] < aux) ) ) {
+			vetor[j+1] = vetor [j]; // se a carta for maior, ou menor caso escolha decrescente, empurramos ela uma gaveta para a direita
+			j--; // depois damos um passo para a esquerda para olhar a proxima carta
+		}
+		vetor[j+1] = aux; // apos o fim do while, significa que (1. achamos o buraco perfeito para encaixar a carta; 2. chegamos no inicio do vetor;
+		// 3. achamos uma carta menor que aux) e encaixamos aux na frente do "j"
+	}
+	clock_t fim = clock();
+	tempo = (((float) (fim - inicio)) / CLOCKS_PER_SEC);
+}
+
+void quickSortRecursivo(float vetor[], int i, int s, int organizar){
+	int e = i, d = s;
+	int item = vetor[(e + d) / 2];
+	int aux;
+	ZerarVariavel();
+	clock_t inicio = clock();
+	
+	while (e <= d){
+		
+		while ( (organizar == 1 && vetor[e] < item) || (organizar == 2 && vetor[e] > item) ) e++;
+		
+		while ( (organizar == 1 && vetor[d] > item) || (organizar == 2 && vetor[d] < item) ) d--;
+		
+		if (e <= d) {
+			aux = vetor[e];
+			vetor[e] = vetor[d];
+			vetor[d] = aux;
+			d--;
+			e++;
+		}
+	}
+	
+	if (d - i > 0) quickSortRecursivo(vetor, i, d, organizar);
+	if (s - e > 0) quickSortRecursivo(vetor, e, s, organizar);
+	clock_t fim = clock();
+	tempo = (((float) (fim - inicio)) / CLOCKS_PER_SEC);
+}
+
+void quickSort(float vetor[], int tamanho, int organizar) {
+	quickSortRecursivo(vetor, 0, tamanho - 1, organizar);
+}
+
+void limparVetor() { // limpa o vetor caso desejado pelo usuario
+	for (int i = 0; i<qtd; i++){ // percorre o vetor
+		vetor[i] = 0; // e iguala todos os numeros no vetor a 0
+	}
+	printf("Vetor completamente limpo com sucesso!!!");
+	qtd = 0; // apos igualar tudo a 0. Coloca a variavel qtd com valor 0 para indicar que o vetor estah vazio
+	getch();
+}
+
+void imprimirVetor() { 
+if (qtd == 0) {
+	printf("O vetor estah vazio!!!");
+	getch();
+}
+else {
+	printf("Numeros armazenados no vetor: ");
+	for (int i = 0; i<qtd; i++){
+		if (i == qtd-1)
+			printf("%.2f ", vetor[i]);
+		else 
+			printf("%.2f, ", vetor[i]);
+	}
+	getch();
+}
+	
+}
+
+int main() {
+	char menu;
+	int resposta;
+	do {
+		resposta = imprimeMenu();
+		
+		switch (resposta) {
+			case 1:
+				do {
+					printf("Insira o %i. valor do vetor: ", qtd+1);
+					scanf("%f", &vetor[qtd]);
+					qtd+=1;
+					printf("Deseja digitar outro valor? (S/N): ");
+					scanf(" %c", &menu);
+				} while (menu == 'S' || menu == 's');
+				break;
+			case 2:
+				limparVetor();
+				break;
+			case 3:
+				imprimirVetor();
+				break;
+			case 4:
+				int ordem; // uma variavel com nome diferente para a escolha, para que assim, evite conflitos por variaveis com mesmo nome
+				printf("\nEscolha a ordem com que gostaria que o vetor seja ordenado\n");
+				printf("\nDigite 1 para Ordem Crescente ou 2 para Ordem Decrescente: ");
+				scanf("%i", &ordem);
+				
+				bubbleSort(ordem);
+				break;
+			case 5:
+				int escolha; // considerando que o C nao permite Override (sobrescrita) como o Java permite
+				printf("\nEscolha a ordem com que gostaria que o vetor seja ordenado\n");
+				printf("\nDigite 1 para Ordem Crescente ou 2 para Ordem Decrescente: ");
+				scanf("%i", &escolha);
+				
+				selectionSort(escolha);
+				break;
+			case 6:
+				int opcao; // e eu fazendo os testes, ele dava erro colocando todas com o mesmo nome... :)
+				printf("\nEscolha a ordem com que gostaria que o vetor seja ordenado\n");
+				printf("\nDigite 1 para Ordem Crescente ou 2 para Ordem Decrescente: ");
+				scanf("%i", &opcao);
+				
+				insertionSort(opcao);
+				break;
+			case 7:
+				int organizar;
+				printf("\nEscolha a ordem com que gostaria que o vetor seja ordenado\n");
+				printf("\nDigite 1 para Ordem Crescente ou 2 para Ordem Decrescente: ");
+				scanf("%i", &organizar);
+				
+				quickSort(vetor, qtd, organizar);
+				break;
+			case 8:
+				int tamanho;
+				printf("Informe o tamanho do vetor que deseja criar: ");
+				scanf("%i", &tamanho);
+				vetorAleatorizado(tamanho);
+				break;
+			case 9:
+				printf("\nSaindo do programa...\n");
+				break;
+				
+			default:
+				printf("Opcao invalida! Por favor digite apenas como instruido anteriormente");
+		}
+	} while (resposta != 9);
+}
