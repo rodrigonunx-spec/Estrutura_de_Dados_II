@@ -1,0 +1,25 @@
+lista = []
+print("Digite 10 números inteiros")
+for i in range (1, 11):
+    numeros = int(input(f"Digite o {i} numero: "))
+    lista.append(numeros)
+
+print(lista)
+
+soma = 0
+
+for numero in lista:
+    soma += numeros
+
+print(soma)
+
+maior = 0
+menor = 0
+
+for numero in lista:
+    if maior < numero:
+        maior = numero
+    if menor > numero:
+        menor = numero
+print(maior)
+print(menor)
